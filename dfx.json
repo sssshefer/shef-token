@@ -1,0 +1,26 @@
+{
+  "canisters": {
+    "shefToken_backend": {
+      "main": "src/shefToken_backend/main.mo",
+      "type": "motoko"
+    },
+    "shefToken_frontend": {
+      "dependencies": [
+        "shefToken_backend"
+      ],
+      "source": [
+        "src/shefToken_frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "shefToken_frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
