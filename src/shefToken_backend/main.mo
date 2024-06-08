@@ -1,14 +1,23 @@
 import Principal "mo:base/Principal";
 import HashMap "mo:base/HashMap";
 import Debug "mo:base/Debug";
+import Iter "mo:base/Iter";
 
 actor Token{
-  var owner :  Principal = Principal.fromText("yf6gs-xom45-fjxsm-6i3gc-ocukx-u44qv-wec23-qahsh-3sccd-fhlfc-vqe");
-  var totalSupply: Nat = 1*10**9;
-  var symbol : Text = "SHEF";
 
-  var balances = HashMap.HashMap<Principal, Nat>(1, Principal.equal, Principal.hash);
-  balances.put(owner, totalSupply);
+  Debug.print("Hello");
+
+  let owner :  Principal = Principal.fromText("yf6gs-xom45-fjxsm-6i3gc-ocukx-u44qv-wec23-qahsh-3sccd-fhlfc-vqe");
+  let totalSupply: Nat = 1*10**9;
+  let symbol : Text = "SHEF";
+
+  private stable var balanceEntries:[(Principal, Nat)] = [];
+
+  private var balances = HashMap.HashMap<Principal, Nat>(1, Principal.equal, Principal.hash);
+
+  if(balances.size() < 1){
+    balances.put(owner, totalSupply);
+  };
 
   public query func balanceOf(who:Principal):async Nat{
     //this is how to handle optional value
@@ -51,5 +60,14 @@ actor Token{
     }else{
       return "insufficient funds";
     };
-  }
+
+  };
+
+  system func preupgrade(){
+    balanceEntries := Iter.toArray(balances.entries())
+  };
+
+  system func postupgrade(){
+    balances := HashMap.fromIter<Principal, Nat>(balanceEntries.vals(),1, Principal.equal, Principal.hash);
+  };
 };
