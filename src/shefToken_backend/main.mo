@@ -4,9 +4,6 @@ import Debug "mo:base/Debug";
 import Iter "mo:base/Iter";
 
 actor Token{
-
-  Debug.print("Hello");
-
   let owner :  Principal = Principal.fromText("yf6gs-xom45-fjxsm-6i3gc-ocukx-u44qv-wec23-qahsh-3sccd-fhlfc-vqe");
   let totalSupply: Nat = 1*10**9;
   let symbol : Text = "SHEF";
